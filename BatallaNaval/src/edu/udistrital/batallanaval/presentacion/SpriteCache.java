@@ -31,7 +31,8 @@ public class SpriteCache {
     }
       
     public BufferedImage getSprite(String nombre) {
-        BufferedImage img = (BufferedImage)sprites.get(nombre);
+        BufferedImage img;
+        img = (BufferedImage)sprites.get(nombre);
         if (img == null) {
             img = loadImage("edu/udistrital/batallanaval/recursos/"+nombre);
             sprites.put(nombre,img);

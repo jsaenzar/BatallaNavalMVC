@@ -24,8 +24,9 @@ public class Vista extends JFrame{
     private JMenuItem jMenuItem1;
     private Canvas lienzo;
     
-    public static final int WIDTH = 800;
+//    public static final int WIDTH = 800;
     public static final int HEIGHT = 600;
+    public static final int WIDTH = 1200;
 
     public Vista(Modelo modelo) {
         this.modelo=modelo;

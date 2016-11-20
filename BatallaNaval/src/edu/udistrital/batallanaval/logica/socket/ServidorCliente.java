@@ -40,7 +40,7 @@ public class ServidorCliente implements Runnable {
     public void run() {
         try (InputStream is = socket.getInputStream()) {
             OutputStream os = socket.getOutputStream();
-            System.out.print("ServidorCliente.run: Client Thread has started succesfully");
+            System.out.println("ServidorCliente.run: Client Thread has started succesfully");
         } catch (Exception e) {
             //System.out.print("ServidorCliente.run: Client Thread hasn't started succesfully");
         }

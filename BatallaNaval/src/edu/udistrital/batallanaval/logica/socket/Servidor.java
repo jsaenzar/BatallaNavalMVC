@@ -11,7 +11,7 @@ public class Servidor implements Runnable {
     private boolean running;
     private DataInputStream flujoLectura;
     private DataOutputStream flujoEscritura;
-    //private Socket socket;
+    private Socket socket;
 
     public static Vector usuarios = new Vector();
 
@@ -30,7 +30,8 @@ public class Servidor implements Runnable {
     public void establecerConexion(ServerSocket socketServidor, String tipoConexion, String nombreCliente) {
         System.out.println("Servidor.iniciarServidor: Waiting for player " + nombreCliente + " connection");
 
-        try (Socket socket = socketServidor.accept()) {
+        try{
+            socket = socketServidor.accept();
             System.out.println("Servidor.iniciarServidor: " + nombreCliente + " has been connected succesfully");
             
             ServidorCliente servidorCliente = new ServidorCliente();
@@ -72,6 +73,10 @@ public class Servidor implements Runnable {
 //        }
     }
 
+    public Socket getSocket() {
+        return socket;
+    }
+
     @Override
     public void run() {
         try (ServerSocket sfd = new ServerSocket(puerto)) {
@@ -85,4 +90,6 @@ public class Servidor implements Runnable {
             System.exit(1);
         }
     }
+    
+    
 }

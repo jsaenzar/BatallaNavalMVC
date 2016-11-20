@@ -5,6 +5,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.Graphics;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -51,7 +54,14 @@ public class Vista extends JFrame {
         jMenu2 = new JMenu();
         lienzo = new Canvas();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+//        this.addWindowListener(new WindowAdapter() {
+//            public void windowClosing(WindowEvent evt) {
+//                System.out.println("Cerrando Ventana");
+//                System.exit(0);
+//            }
+//        });
+
         setTitle("Batalla Naval");
 
         lienzo.setBounds(0, 0, WIDTH, HEIGHT);
@@ -90,6 +100,7 @@ public class Vista extends JFrame {
     private void capturarEventos() {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         lienzo.addMouseListener(getControlador());
+        this.addWindowListener(getControlador());
     }
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,19 +117,4 @@ public class Vista extends JFrame {
     public Modelo getModelo() {
         return modelo;
     }
-/*
-    public boolean handleEvent(Event e) {
-        if ((e.target == this) && (e.id == Event.WINDOW_DESTROY)) {
-            if (sfd != null) {
-                try {
-                    sfd.close();
-                } catch (IOException ioe) {
-                    System.out.println("Error: " + ioe);
-                }
-                this.dispose();
-            }
-        }
-        return true;
-    }
-*/
 }

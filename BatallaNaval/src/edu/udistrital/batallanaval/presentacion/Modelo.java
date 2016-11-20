@@ -72,7 +72,6 @@ public class Modelo implements Runnable, Escenario {
                 Thread.sleep(SPEED);
             } catch (InterruptedException e) {
             }
-
         }
     }
 

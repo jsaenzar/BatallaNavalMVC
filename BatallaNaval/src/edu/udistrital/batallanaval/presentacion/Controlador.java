@@ -90,6 +90,7 @@ public class Controlador implements MouseListener, WindowListener {
                 getVista().getModelo().getSistema().getCliente().getSocket().close();
             }
 
+            
             System.out.println("Socket cerrado");
         } catch (IOException ex) {
             Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);

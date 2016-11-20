@@ -40,6 +40,7 @@ public class Cliente implements Runnable {
             flujoEscritura.flush();
             flujoEscritura.close();
 
+            
             System.out.println("Cliente: ClientSocket has started succesfully");
         } catch (IOException e) {
             System.out.println("Cliente: El socket del cliente NO ha iniciado satisfactoriamente");

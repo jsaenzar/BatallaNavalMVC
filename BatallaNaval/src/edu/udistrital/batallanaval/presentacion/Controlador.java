@@ -84,12 +84,14 @@ public class Controlador implements MouseListener, WindowListener {
     public void windowClosing(WindowEvent we) {
         System.out.println("WindowEvent");
         try {
+            getVista().getModelo().getSistema().getCliente().getFlujoEscritura().close();
             getVista().getModelo().getSistema().getCliente().getSocket().close();
+            
 
             if (getVista().getModelo().getSistema().getServidor() != null) {
                 System.out.println("WindowEvent if");
+                getVista().getModelo().getSistema().getServidor().getFlujoLectura();
                 getVista().getModelo().getSistema().getServidor().getSocket().close();
-
             }
             System.out.println("Socket cerrado");
         } catch (IOException ex) {

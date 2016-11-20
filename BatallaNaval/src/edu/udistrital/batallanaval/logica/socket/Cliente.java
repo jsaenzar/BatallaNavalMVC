@@ -38,14 +38,16 @@ public class Cliente implements Runnable {
             flujoEscritura = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
             flujoEscritura.writeUTF("BNAVAL:" + Comando.CONECTAR.getNombre() + "," + nombreCliente);
             flujoEscritura.flush();
-            flujoEscritura.close();
-
-            
+//            flujoEscritura.close();
             System.out.println("Cliente: ClientSocket has started succesfully");
         } catch (IOException e) {
             System.out.println("Cliente: El socket del cliente NO ha iniciado satisfactoriamente");
             System.exit(1);
         }
+    }
+
+    public DataOutputStream getFlujoEscritura() {
+        return flujoEscritura;
     }
 
     public Socket getSocket() {

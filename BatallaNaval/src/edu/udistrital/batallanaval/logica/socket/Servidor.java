@@ -64,7 +64,9 @@ public class Servidor implements Runnable {
 //        if (!nombreCliente.equals("orejuela") && !nombreCliente.equals("cliente")) {
         flujoLectura = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
         String mensaje = flujoLectura.readUTF();
+//        flujoLectura.close();
         System.out.println("Servidor.iniciarServidor:  Mensaje recibido: " + mensaje);
+        
 //        }            
 //            Mensaje mensaje = new Mensaje(flujoLectura);
 //            mensaje.leerFlujo();
@@ -77,6 +79,12 @@ public class Servidor implements Runnable {
         return socket;
     }
 
+    public DataInputStream getFlujoLectura() {
+        return flujoLectura;
+    }
+
+    
+    
     @Override
     public void run() {
         try (ServerSocket sfd = new ServerSocket(puerto)) {

@@ -20,7 +20,7 @@ public class ServidorCliente implements Runnable {
     }
 
     public void iniciarServidorCliente(Socket socket) {
-        System.out.println("ServidorCliente.iniciarServidorCliente: Strating client Thread in server: "
+        System.out.println("ServidorCliente.iniciarServidorCliente: Starting client Thread in server: "
                 + socket.getInetAddress());
         this.socket = socket;
         running = true;
@@ -32,6 +32,8 @@ public class ServidorCliente implements Runnable {
     public void run() {
         try (InputStream is = socket.getInputStream()) {
             OutputStream os = socket.getOutputStream();
+                       
+            
             System.out.print("ServidorCliente.run: Client Thread has started succesfully");
 
         } catch (Exception e) {

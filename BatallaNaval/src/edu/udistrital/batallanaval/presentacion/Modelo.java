@@ -42,12 +42,10 @@ public class Modelo implements Runnable, Escenario {
 
     public void iniciar() {
         estado = "Nuevo";
-//      getVista().setSize(800, 600);
         getVista().setSize(1200, 600);
         getVista().setVisible(true);
         boolean esServidor = true;
         boolean esCliente = false;
-
         if (esServidor) {
             getSistema().getServidor().iniciarServidor(7000);
             getSistema().getCliente().iniciarCliente("localhost", 7000);
@@ -55,7 +53,6 @@ public class Modelo implements Runnable, Escenario {
         if (esCliente) {
             getSistema().getCliente().iniciarCliente("localhost", 7000);
         }
-
         hilo.run();
     }
 

@@ -6,10 +6,11 @@ import java.util.Vector;
 
 public class Servidor implements Runnable {
 
-//    public ServerSocket sfd;
     public int puerto;
     private Thread hilo;
     private boolean running;
+    private DataInputStream flujoLectura;
+    private DataOutputStream flujoEscritura;
 
     public static Vector usuarios = new Vector();
 
@@ -32,6 +33,10 @@ public class Servidor implements Runnable {
             System.out.println("Servidor.iniciarServidor:  Player " + nombreJugador + " has been conected succesfully");
             ServidorCliente servidorCliente = new ServidorCliente();
             servidorCliente.iniciarServidorCliente(socket);
+            flujoLectura = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+            String mensaje;
+            mensaje = flujoLectura.readUTF();
+            System.out.println("Servidor.iniciarServidor:  Mensaje recibido: " + mensaje);
         } catch (IOException ioe) {
             System.out.println("Servidor.iniciarServidor: Error: " + ioe);
         }
@@ -41,7 +46,7 @@ public class Servidor implements Runnable {
     public void run() {
         try (ServerSocket sfd = new ServerSocket(puerto)) {
             System.out.println("Servidor.run: ServerSocket has started succesfully");
-            establecerConexion(sfd, "Home");
+            establecerConexion(sfd, "Orejuela");
             establecerConexion(sfd, "Guest");
         } catch (IOException ioe) {
             System.out.println("Comunicacion rechazada." + ioe);

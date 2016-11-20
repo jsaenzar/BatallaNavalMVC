@@ -21,10 +21,11 @@ public class Modelo implements Runnable, Escenario {
     private Thread hilo;
     public BufferedImage buffer;
     public BufferStrategy strategy;
-//    private ArrayList casillas;
+//  private ArrayList casillas;
     private String estado;
     private SpriteCache spriteCache;
     private int cBarcosEnemigos;
+    private Thread hiloSocket;
 
 //    jsaenzar: DECLARANDO LISTADO DE ACTORES - BARCOS AMIGOS y BARCOS ENEMIGOS
     private Sistema sistema;
@@ -37,15 +38,24 @@ public class Modelo implements Runnable, Escenario {
         getVista().getLienzo().createBufferStrategy(2);
         strategy = getVista().getLienzo().getBufferStrategy();
         getVista().getLienzo().requestFocus();
-
     }
 
     public void iniciar() {
         estado = "Nuevo";
-
-//        getVista().setSize(800, 600);
+//      getVista().setSize(800, 600);
         getVista().setSize(1200, 600);
         getVista().setVisible(true);
+        boolean esServidor = true;
+        boolean esCliente = false;
+
+        if (esServidor) {
+            getSistema().getServidor().iniciarServidor(7000);
+            getSistema().getCliente().iniciarCliente("localhost", 7000);
+        }
+        if (esCliente) {
+            getSistema().getCliente().iniciarCliente("localhost", 7000);
+        }
+
         hilo.run();
     }
 

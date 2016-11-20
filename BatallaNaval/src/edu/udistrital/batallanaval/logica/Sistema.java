@@ -6,6 +6,8 @@
 package edu.udistrital.batallanaval.logica;
 
 import edu.udistrital.batallanaval.enums.TipoBarco;
+import edu.udistrital.batallanaval.logica.socket.Cliente;
+import edu.udistrital.batallanaval.logica.socket.Servidor;
 import java.util.ArrayList;
 
 /**
@@ -21,6 +23,8 @@ public class Sistema {
     private boolean impactoCasillaEnemigo;
     private boolean clicTableroCorrecto;
     private ArrayList casillas;
+    private Cliente cliente;
+    private Servidor servidor;
 
     public Sistema() {
 
@@ -49,8 +53,8 @@ public class Sistema {
                 u[0][0] = j;
                 u[0][1] = i;
                 m.setUbicacion(u);
-                System.out.println("Casillas Amigas - Coordenadas: " + "(" + x + "," + y + ")"
-                        + " Ubicacion: " + "(" + m.getUbicacion()[0][0] + "," + m.getUbicacion()[0][1] + ")");
+//                System.out.println("Casillas Amigas - Coordenadas: " + "(" + x + "," + y + ")"
+//                        + " Ubicacion: " + "(" + m.getUbicacion()[0][0] + "," + m.getUbicacion()[0][1] + ")");
 //                m.setTipo(1);
                 casillas.add(m);
             }
@@ -89,8 +93,8 @@ public class Sistema {
                 u[0][1] = i;
                 m.setUbicacion(u);
 //                m.setTipo(2);
-                System.out.println("Casillas Amigas desde Enemigo - Coordenadas: " + "(" + x + "," + y + ")"
-                        + " Ubicacion: " + "(" + m.getUbicacion()[0][0] + "," + m.getUbicacion()[0][1] + ")");
+//                System.out.println("Casillas Amigas desde Enemigo - Coordenadas: " + "(" + x + "," + y + ")"
+//                        + " Ubicacion: " + "(" + m.getUbicacion()[0][0] + "," + m.getUbicacion()[0][1] + ")");
                 casillas.add(m);
 
             }
@@ -167,10 +171,10 @@ public class Sistema {
             int rand = (int) (Math.random() * (100)) + 100;
             Casilla c = (Casilla) casillas.get(rand);
             casillasEnemigo.add(c);
-            System.out.println("BarcoEnemigo: (" + c.getX() + "," + c.getY() + ")" + " Ubicacion: " + "(" + c.getUbicacion()[0][0] + "," + c.getUbicacion()[0][1] + ")");
+//            System.out.println("BarcoEnemigo: (" + c.getX() + "," + c.getY() + ")" + " Ubicacion: " + "(" + c.getUbicacion()[0][0] + "," + c.getUbicacion()[0][1] + ")");
 
         }
-        System.out.println(" Numero de casillas de Barcos Enemigos: " + casillasEnemigo.size());
+//        System.out.println(" Numero de casillas de Barcos Enemigos: " + casillasEnemigo.size());
 
     }
 
@@ -294,7 +298,28 @@ public class Sistema {
             m2.setOcupado(true);
             barcoAmigo.getCasillas().add(m2);
         }
-
     }
 
+    public Cliente getCliente() {
+        if (cliente == null) {
+            cliente = new Cliente();
+        }
+        return cliente;
+    }
+
+    public Servidor getServidor() {
+        if (servidor == null) {
+            System.out.println("getServidor() ------------------------");
+            servidor = new Servidor();
+        }
+        return servidor;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public void setServidor(Servidor servidor) {
+        this.servidor = servidor;
+    }
 }

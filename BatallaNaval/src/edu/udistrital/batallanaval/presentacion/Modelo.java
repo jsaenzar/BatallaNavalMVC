@@ -3,6 +3,7 @@ package edu.udistrital.batallanaval.presentacion;
 import edu.udistrital.batallanaval.logica.Casilla;
 import edu.udistrital.batallanaval.enums.TipoBarco;
 import edu.udistrital.batallanaval.logica.Sistema;
+import edu.udistrital.batallanaval.logica.socket.Cliente;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -51,7 +52,9 @@ public class Modelo implements Runnable, Escenario {
             getSistema().getCliente().iniciarCliente("localhost", 7000);
         }
         if (esCliente) {
-            getSistema().getCliente().iniciarCliente("localhost", 7000);
+            getSistema();
+            getSistema().setNombreCliente("Sáenz");
+            getSistema().getCliente().iniciarCliente("192.168.0.36", 7000);
         }
         hilo.run();
     }

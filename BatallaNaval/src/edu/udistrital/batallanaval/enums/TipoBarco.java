@@ -25,8 +25,8 @@ public enum TipoBarco {
     BIGGEST_4("ship-white128_4.png", 4);  //Cuando terminamos cerramos con ;
 
     //Campos tipo constante   
-    private final String nombreImg; //Color de la madera
-    private final int numCasillas; //Peso específico de la madera
+    private final String nombreImg;
+    private final int numCasillas;
 
     /**
      * Constructor. Al asignarle uno de los valores posibles a una variable del

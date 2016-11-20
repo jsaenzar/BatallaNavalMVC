@@ -25,6 +25,7 @@ public class Sistema {
     private ArrayList casillas;
     private Cliente cliente;
     private Servidor servidor;
+private String nombreCliente;
 
     public Sistema() {
 
@@ -302,7 +303,7 @@ public class Sistema {
 
     public Cliente getCliente() {
         if (cliente == null) {
-            cliente = new Cliente();
+            cliente = new Cliente(nombreCliente);            
         }
         return cliente;
     }
@@ -322,4 +323,10 @@ public class Sistema {
     public void setServidor(Servidor servidor) {
         this.servidor = servidor;
     }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
+    
+    
 }

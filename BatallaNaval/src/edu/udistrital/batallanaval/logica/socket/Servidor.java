@@ -28,15 +28,17 @@ public class Servidor implements Runnable {
 
     public void establecerConexion(ServerSocket socketServidor, String nombreJugador) {
         System.out.println("Servidor.iniciarServidor: Waiting for player " + nombreJugador + " connection");
-
         try (Socket socket = socketServidor.accept()) {
             System.out.println("Servidor.iniciarServidor:  Player " + nombreJugador + " has been conected succesfully");
             ServidorCliente servidorCliente = new ServidorCliente();
             servidorCliente.iniciarServidorCliente(socket);
+
             flujoLectura = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-            String mensaje;
-            mensaje = flujoLectura.readUTF();
-            System.out.println("Servidor.iniciarServidor:  Mensaje recibido: " + mensaje);
+            Mensaje mensaje = new Mensaje(flujoLectura);
+            mensaje.LeerFlujo();      
+            
+            System.out.println("Servidor.iniciarServidor:  Mensaje recibido: " + mensaje.getStrComando() + "," +
+                    mensaje.getStrParam1());
         } catch (IOException ioe) {
             System.out.println("Servidor.iniciarServidor: Error: " + ioe);
         }

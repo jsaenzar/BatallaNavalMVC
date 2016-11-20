@@ -11,6 +11,7 @@ public class Servidor implements Runnable {
     private boolean running;
     private DataInputStream flujoLectura;
     private DataOutputStream flujoEscritura;
+    //private Socket socket;
 
     public static Vector usuarios = new Vector();
 
@@ -28,19 +29,25 @@ public class Servidor implements Runnable {
 
     public void establecerConexion(ServerSocket socketServidor, String nombreJugador) {
         System.out.println("Servidor.iniciarServidor: Waiting for player " + nombreJugador + " connection");
+
         try (Socket socket = socketServidor.accept()) {
-            System.out.println("Servidor.iniciarServidor:  Player " + nombreJugador + " has been conected succesfully");
+            System.out.println("Servidor.iniciarServidor: " + nombreJugador + " has been connected succesfully");
             ServidorCliente servidorCliente = new ServidorCliente();
             servidorCliente.iniciarServidorCliente(socket);
-
-            flujoLectura = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-            Mensaje mensaje = new Mensaje(flujoLectura);
-            mensaje.LeerFlujo();      
+            leerMensaje(socket, nombreJugador);
             
-            System.out.println("Servidor.iniciarServidor:  Mensaje recibido: " + mensaje.getStrComando() + "," +
-                    mensaje.getStrParam1());
         } catch (IOException ioe) {
             System.out.println("Servidor.iniciarServidor: Error: " + ioe);
+        }
+    }
+
+    public void leerMensaje(Socket socket, String nombreJugador) throws IOException {
+        if (!nombreJugador.equals("orejuela") && !nombreJugador.equals("cliente")) {
+            flujoLectura = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+            Mensaje mensaje = new Mensaje(flujoLectura);
+            mensaje.leerFlujo();
+            System.out.println("Servidor.iniciarServidor:  Mensaje recibido: " + mensaje.getStrComando() + ","
+                    + mensaje.getStrParam1());
         }
     }
 
@@ -48,8 +55,9 @@ public class Servidor implements Runnable {
     public void run() {
         try (ServerSocket sfd = new ServerSocket(puerto)) {
             System.out.println("Servidor.run: ServerSocket has started succesfully");
-            establecerConexion(sfd, "Orejuela");
-            establecerConexion(sfd, "Guest");
+            establecerConexion(sfd, "orejuela");
+            establecerConexion(sfd, "cliente");
+//            leerMensaje(socket);
         } catch (IOException ioe) {
             System.out.println("Comunicacion rechazada." + ioe);
             System.exit(1);

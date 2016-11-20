@@ -19,7 +19,7 @@ public class Mensaje {
         this.flujoLectura = flujoEntrada;
     }
 
-    public void LeerFlujo() throws IOException {
+    public void leerFlujo() throws IOException {
         String mensaje = flujoLectura.readUTF();
         String[] strings = mensaje.split(",");
         setStrComando(strings[0]);

@@ -1,5 +1,9 @@
 package edu.udistrital.batallanaval.logica.socket;
 
+import edu.udistrital.batallanaval.enums.Comando;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -14,6 +18,10 @@ public class ServidorCliente implements Runnable {
     private boolean running;
     private Socket socket;
     private Thread hilo;
+    private DataInputStream flujoLectura;
+    private DataOutputStream flujoEscritura;
+    private String nombreJugador;
+    private Comando comando;
 
     public ServidorCliente() {
         running = false;
@@ -32,10 +40,7 @@ public class ServidorCliente implements Runnable {
     public void run() {
         try (InputStream is = socket.getInputStream()) {
             OutputStream os = socket.getOutputStream();
-                       
-            
             System.out.print("ServidorCliente.run: Client Thread has started succesfully");
-
         } catch (Exception e) {
             //System.out.print("ServidorCliente.run: Client Thread hasn't started succesfully");
         }

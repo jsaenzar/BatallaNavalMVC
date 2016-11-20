@@ -58,23 +58,23 @@ public class Controlador implements MouseListener, WindowListener {
     }
 
     /*
-    public boolean handleEvent(Event e) {
-        System.out.println("handleEvent");
-        if ((e.target == this) && (e.id == Event.WINDOW_DESTROY)) {
-            System.out.println("IF WINDOW_DESTROY");
-            if (getModelo().getSistema().getServidor().getSocket() != null) {
-                System.out.println("EXISTE SOCKET A ELIMINAR");
-                try {
-                    getModelo().getSistema().getServidor().getSocket().close();
-                    System.out.println("SOCKET CERRADO");
-                } catch (IOException ioe) {
-                    System.out.println("Error: " + ioe);
-                }
-                this.dispose();
-            }
-        }
-        return true;
-    }*/
+     public boolean handleEvent(Event e) {
+     System.out.println("handleEvent");
+     if ((e.target == this) && (e.id == Event.WINDOW_DESTROY)) {
+     System.out.println("IF WINDOW_DESTROY");
+     if (getModelo().getSistema().getServidor().getSocket() != null) {
+     System.out.println("EXISTE SOCKET A ELIMINAR");
+     try {
+     getModelo().getSistema().getServidor().getSocket().close();
+     System.out.println("SOCKET CERRADO");
+     } catch (IOException ioe) {
+     System.out.println("Error: " + ioe);
+     }
+     this.dispose();
+     }
+     }
+     return true;
+     }*/
     @Override
     public void windowOpened(WindowEvent we) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -84,7 +84,12 @@ public class Controlador implements MouseListener, WindowListener {
     public void windowClosing(WindowEvent we) {
         System.out.println("WindowEvent");
         try {
-            getVista().getModelo().getSistema().getServidor().getSocket().close();
+            if (getVista().getModelo().getSistema().getServidor() == null) {
+                getVista().getModelo().getSistema().getServidor().getSocket().close();
+            } else {
+                getVista().getModelo().getSistema().getCliente().getSocket().close();
+            }
+
             System.out.println("Socket cerrado");
         } catch (IOException ex) {
             Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);

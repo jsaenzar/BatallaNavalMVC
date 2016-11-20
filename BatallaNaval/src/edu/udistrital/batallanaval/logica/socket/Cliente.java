@@ -14,7 +14,7 @@ public class Cliente implements Runnable {
     private DataOutputStream flujoEscritura;
     private String nombreCliente;
     private Comando comando;
-
+    private Socket socket;
     public Cliente(String nombreCliente) {
         this.nombreCliente = nombreCliente;
         running = false;
@@ -31,12 +31,14 @@ public class Cliente implements Runnable {
 
     @Override
     public void run() {
-        try (Socket socket = new Socket(hostName, puerto)) {
+        try  {
             //ENVIAR EL MENSAJE CON(Saenz)
 //            comando = Comando.CONECTAR;
+            socket = new Socket(hostName, puerto);
             flujoEscritura = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
             flujoEscritura.writeUTF("BNAVAL:" + Comando.CONECTAR.getNombre() + "," + nombreCliente);
             flujoEscritura.flush();
+            flujoEscritura.close();
 
             System.out.println("Cliente: ClientSocket has started succesfully");
         } catch (IOException e) {
@@ -44,4 +46,10 @@ public class Cliente implements Runnable {
             System.exit(1);
         }
     }
+
+    public Socket getSocket() {
+        return socket;
+    }
+    
+    
 }

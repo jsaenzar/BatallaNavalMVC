@@ -19,9 +19,12 @@ public class Sistema {
     private boolean barcosAmigosCargados;
     private boolean impactoCasillaAmigo;
     private boolean impactoCasillaEnemigo;
-    private boolean clicCasillaEnemigo;
+    private boolean clicTableroCorrecto;
+    private ArrayList casillas;
 
     public Sistema() {
+
+        casillas = new ArrayList();
 
         barcosAmigosList = new ArrayList<Actor>();
         casillasEnemigo = new ArrayList<Casilla>();
@@ -30,7 +33,74 @@ public class Sistema {
         impactoCasillaEnemigo = false;
     }
 
-    public void cargarBarcosAmigos(int x, int y, TipoBarco tipoBarco, ArrayList casillas) {
+    public void initWorld() {
+        int x;
+        int y = 10;
+//        casillas = new ArrayList();
+        for (int j = 0; j < 10; j++) {
+            x = 10;
+            y += 32;
+            for (int i = 0; i < 10; i++) {
+                x += 32;
+                Casilla m = new Casilla(/*this*/);
+                m.setX(x);
+                m.setY(y);
+                int[][] u = new int[1][2];
+                u[0][0] = j;
+                u[0][1] = i;
+                m.setUbicacion(u);
+                System.out.println("Casillas Amigas - Coordenadas: " + "(" + x + "," + y + ")"
+                        + " Ubicacion: " + "(" + m.getUbicacion()[0][0] + "," + m.getUbicacion()[0][1] + ")");
+//                m.setTipo(1);
+                casillas.add(m);
+            }
+        }
+
+        y = 10;
+        for (int j = 0; j < 10; j++) {
+            x = 400;
+            y += 32;
+            for (int i = 0; i < 10; i++) {
+                x += 32;
+                Casilla m = new Casilla(/*this*/);
+                m.setX(x);
+                m.setY(y);
+                int[][] u = new int[1][2];
+                u[0][0] = j;
+                u[0][1] = i;
+                m.setUbicacion(u);
+//                m.setTipo(2);
+                casillas.add(m);
+
+            }
+        }
+
+        y = 10;
+        for (int j = 0; j < 10; j++) {
+            x = 800;
+            y += 32;
+            for (int i = 0; i < 10; i++) {
+                x += 32;
+                Casilla m = new Casilla(/*this*/);
+                m.setX(x);
+                m.setY(y);
+                int[][] u = new int[1][2];
+                u[0][0] = j;
+                u[0][1] = i;
+                m.setUbicacion(u);
+//                m.setTipo(2);
+                System.out.println("Casillas Amigas desde Enemigo - Coordenadas: " + "(" + x + "," + y + ")"
+                        + " Ubicacion: " + "(" + m.getUbicacion()[0][0] + "," + m.getUbicacion()[0][1] + ")");
+                casillas.add(m);
+
+            }
+        }
+
+        cargarCasillasOcupadasEnemigo(casillas);
+
+    }
+
+    public void cargarBarcosAmigos(int x, int y, ArrayList tipoBarcoList/*, ArrayList casillas*/) {
 
         if (barcosAmigosList.size() < 10) {
             Actor barcoAmigo = new Actor();
@@ -59,24 +129,10 @@ public class Sistema {
 //                        cBarcosAmigos++;
 
 //                jsaenzar: SE CARGA BARCO AMIGO EN EL LISTADO DE ACTORES - BARCOS AMIGOS                       
-                        for (int a = 0; a < tipoBarco.getNumCasillas(); a++) {
+                        TipoBarco t = (TipoBarco) tipoBarcoList.get(0);
+                        for (int a = 0; a < t.getNumCasillas(); a++) {
 
-                            if (a == 0) {
-                                m.setSpriteName(tipoBarco.getNombreImg());
-                                m.setOcupado(true);
-                                barcoAmigo.getCasillas().add(m);
-
-                            } else {
-                                Casilla m2 = (Casilla) casillas.get(i + a);
-                                m2.setOcupado(true);
-                                barcoAmigo.getCasillas().add(m2);
-                            }
-//                            if (a == 0) {
-//                                m.setSpriteName(tipoBarco.getNombreImg());
-//                            }
-//                            m.setOcupado(true);
-//                            barcoAmigo.getCasillas().add(m);
-//                            m = (Casilla) casillas.get(i + 1);
+                            cargarCasillaBarcoAmigo(i, a, tipoBarcoList, m, barcoAmigo);
                         }
 
                     }
@@ -89,10 +145,10 @@ public class Sistema {
                 isAgregarBarco = false;
 
             }
-            System.out.println("Contador barcosAmigosList:" + barcosAmigosList.size());
 
         } else {
             barcosAmigosCargados = true;
+            System.out.println("Contador barcosAmigosList:" + barcosAmigosList.size());
         }
     }
 
@@ -114,11 +170,11 @@ public class Sistema {
             System.out.println("BarcoEnemigo: (" + c.getX() + "," + c.getY() + ")" + " Ubicacion: " + "(" + c.getUbicacion()[0][0] + "," + c.getUbicacion()[0][1] + ")");
 
         }
-            System.out.println(" Numero de casillas de Barcos Enemigos: " + casillasEnemigo.size());
-        
+        System.out.println(" Numero de casillas de Barcos Enemigos: " + casillasEnemigo.size());
+
     }
 
-    public void validarImpactoCasillaEnemigo(int x, int y, ArrayList casillas) {
+    public void validarImpactoCasillaEnemigo(int x, int y/*, ArrayList casillas*/) {
 
         impactoCasillaEnemigo = false;
         for (int i = 100; i < 200; i++) {
@@ -128,7 +184,7 @@ public class Sistema {
 //       jsaenzar:       SE UBICA LA CASILLA DONDE SE DIO CLIC       
             Casilla m = (Casilla) casillas.get(i);
             if (isClickEnCasilla(x, y, m.getX(), m.getY(), m.getWidth(), m.getHeight())) {
-                clicCasillaEnemigo = true;
+                clicTableroCorrecto = true;
                 System.out.println("Click: (" + m.getX() + "," + m.getY() + ")");
 //                        for (int j = 0; j < 10; j++) {
 //                            //             jsaenzar: SE COMENTA DEL CODIGO ORIGINAL
@@ -156,7 +212,7 @@ public class Sistema {
                 break;
 
             } else {
-                clicCasillaEnemigo = false;
+                clicTableroCorrecto = false;
             }
         }
 
@@ -170,17 +226,18 @@ public class Sistema {
         return impactoCasillaEnemigo;
     }
 
-    public boolean isClicCasillaEnemigo() {
-        return clicCasillaEnemigo;
+    public boolean isClicTableroCorrecto() {
+        return clicTableroCorrecto;
     }
 
-    public void validarImpactoCasillaAmigo(int x, int y, ArrayList casillas) {
+    public void validarImpactoCasillaAmigo(int x, int y/*, ArrayList casillas*/) {
 
         impactoCasillaAmigo = false;
         for (int i = 200; i < 300; i++) {
 
             Casilla m = (Casilla) casillas.get(i);
             if (isClickEnCasilla(x, y, m.getX(), m.getY(), m.getWidth(), m.getHeight())) {
+                clicTableroCorrecto = true;
                 System.out.println("Click: (" + m.getX() + "," + m.getY() + ")");
 
                 for (int j = 0; j < 100; j++) {
@@ -191,17 +248,24 @@ public class Sistema {
                         if (n.isOcupado()) {
                             impactoCasillaAmigo = true;
                             m.setSpriteName("ship-red.png");
-                            n.setSpriteName("ship-red.png");
+                            n.setSpriteName("bomb.png");
                             System.out.println("IMPACTO CASILLA AMIGO EXITOSO");
                             break;
                         } else {
                             m.setSpriteName("ship-blue.png");
+                            break;
 //                            n.setSpriteName("ship-blue.png");
-                            
+
                         }
                     }
 
                 }
+                if (clicTableroCorrecto) {
+                    break;
+
+                }
+            } else {
+                clicTableroCorrecto = false;
             }
         }
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -210,6 +274,27 @@ public class Sistema {
     public boolean isImpactoCasillaAmigo() {
 
         return impactoCasillaAmigo;
+    }
+
+    public ArrayList getCasillas() {
+        return casillas;
+    }
+
+    private void cargarCasillaBarcoAmigo(int i, int a, ArrayList tipoBarcoList, Casilla m, Actor barcoAmigo) {
+
+        TipoBarco t = (TipoBarco) tipoBarcoList.get(0);
+        if (a == 0) {
+            m.setSpriteName(t.getNombreImg());
+            m.setOcupado(true);
+            barcoAmigo.getCasillas().add(m);
+        } else {
+            TipoBarco t2 = (TipoBarco) tipoBarcoList.get(a);
+            Casilla m2 = (Casilla) casillas.get(i + a);
+            m2.setSpriteName(t2.getNombreImg());
+            m2.setOcupado(true);
+            barcoAmigo.getCasillas().add(m2);
+        }
+
     }
 
 }

@@ -21,7 +21,7 @@ public class Modelo implements Runnable, Escenario {
     private Thread hilo;
     public BufferedImage buffer;
     public BufferStrategy strategy;
-    private ArrayList casillas;
+//    private ArrayList casillas;
     private String estado;
     private SpriteCache spriteCache;
     private int cBarcosEnemigos;
@@ -67,70 +67,10 @@ public class Modelo implements Runnable, Escenario {
     }
 
     public void initWorld() {
-        int x;
-        int y = 10;
-        casillas = new ArrayList();
-        for (int j = 0; j < 10; j++) {
-            x = 10;
-            y += 32;
-            for (int i = 0; i < 10; i++) {
-                x += 32;
-                Casilla m = new Casilla(/*this*/);
-                m.setX(x);
-                m.setY(y);
-                int[][] u = new int[1][2];
-                u[0][0] = j;
-                u[0][1] = i;
-                m.setUbicacion(u);
-                System.out.println("Casillas Amigas - Coordenadas: " + "(" + x + "," + y + ")"
-                        + " Ubicacion: " + "(" + m.getUbicacion()[0][0] + "," + m.getUbicacion()[0][1] + ")");
-//                m.setTipo(1);
-                casillas.add(m);
-            }
-        }
 
-        y = 10;
-        for (int j = 0; j < 10; j++) {
-            x = 400;
-            y += 32;
-            for (int i = 0; i < 10; i++) {
-                x += 32;
-                Casilla m = new Casilla(/*this*/);
-                m.setX(x);
-                m.setY(y);
-                int[][] u = new int[1][2];
-                u[0][0] = j;
-                u[0][1] = i;
-                m.setUbicacion(u);
-//                m.setTipo(2);
-                casillas.add(m);
+        getSistema().initWorld();
 
-            }
-        }
-
-        y = 10;
-        for (int j = 0; j < 10; j++) {
-            x = 800;
-            y += 32;
-            for (int i = 0; i < 10; i++) {
-                x += 32;
-                Casilla m = new Casilla(/*this*/);
-                m.setX(x);
-                m.setY(y);
-                int[][] u = new int[1][2];
-                u[0][0] = j;
-                u[0][1] = i;
-                m.setUbicacion(u);
-//                m.setTipo(2);
-                System.out.println("Casillas Amigas desde Enemigo - Coordenadas: " + "(" + x + "," + y + ")"
-                        + " Ubicacion: " + "(" + m.getUbicacion()[0][0] + "," + m.getUbicacion()[0][1] + ")");
-                casillas.add(m);
-
-            }
-        }
-
-        getSistema().cargarCasillasOcupadasEnemigo(casillas);
-
+        System.out.println("***********************MUNDO CARGADO******************************************");
     }
 
     public void dibujarMundo() {
@@ -139,8 +79,8 @@ public class Modelo implements Runnable, Escenario {
         g.fillRect(0, 0, getVista().getLienzo().getWidth(), getVista().getLienzo().getHeight());
 
 //        SE CARGA LA IMAGEN A LA CASILLA
-        for (int i = 0; i < casillas.size(); i++) {
-            Casilla m = (Casilla) casillas.get(i);
+        for (int i = 0; i < getSistema().getCasillas().size(); i++) {
+            Casilla m = (Casilla) getSistema().getCasillas().get(i);
             paint(g, m);
 
         }
@@ -171,24 +111,20 @@ public class Modelo implements Runnable, Escenario {
 //       jsaenzar: SE COMENTA CODIGO ORIGINAL 
 //        if (estado.compareTo("Nuevo") == 0 && cBarcosAmigos < 10) {
 
-        TipoBarco tipoBarco = TipoBarco.SMALL;
-        int rand = (int) (Math.random() * (3) + 1);
-        System.out.println("rand: " + rand);
-
-        if (rand == 2) {
-            tipoBarco = TipoBarco.MEDIUM;
-        } else if (rand == 3) {
-            tipoBarco = TipoBarco.BIG;
-        }
-
 //        if (estado.compareTo("Nuevo") == 0) {
         if (!getSistema().isBarcosAmigosCargados()) {
 
-            getSistema().cargarBarcosAmigos(x, y, tipoBarco, casillas);
+            ArrayList<TipoBarco> tipoBarcoList = new ArrayList<>();
+
+            seleccionarBarco(tipoBarcoList);
+
+//            getSistema().cargarBarcosAmigos(x, y, tipoBarco, casillas);
+            getSistema().cargarBarcosAmigos(x, y, tipoBarcoList);
 
         } else if (cBarcosEnemigos < 2) {
-            getSistema().validarImpactoCasillaEnemigo(x, y, casillas);
-            if (getSistema().isClicCasillaEnemigo()) {
+//            getSistema().validarImpactoCasillaEnemigo(x, y, casillas);
+            getSistema().validarImpactoCasillaEnemigo(x, y);
+            if (getSistema().isClicTableroCorrecto()) {
                 if (getSistema().isImpactoCasillaEnemigo()) {
                     cBarcosEnemigos++;
                     System.out.println("Barco Enemigo impactado" + cBarcosEnemigos);
@@ -196,13 +132,23 @@ public class Modelo implements Runnable, Escenario {
                     System.out.println("Impacto Fallido");
                 }
             } else {
-                System.out.println("No hizo click en casilla de enmigo. Intente nuevamente!");
+                System.out.println("No hizo click en casilla de enemigo. Intente nuevamente!");
+            }
+
+            if (cBarcosEnemigos == 2) {
+
+                System.out.println("***************VALIDAR IMPACTOS EN CASILLAS DE AMIGOS******************");
+
             }
 
         } else {
-            System.out.println("VALIDAR IMPACTOS EN CASILLAS DE AMIGOS");
 
-            getSistema().validarImpactoCasillaAmigo(x, y, casillas);
+//            getSistema().validarImpactoCasillaAmigo(x, y, casillas);
+            getSistema().validarImpactoCasillaAmigo(x, y);
+            if (!getSistema().isClicTableroCorrecto()) {
+                System.out.println("No hizo click en casilla indicada. Intente nuevamente!");
+            }
+
         }
     }
 
@@ -232,6 +178,41 @@ public class Modelo implements Runnable, Escenario {
 
 //    jsaenzar: SE PINTA LA IMAGEN QUE SE PINTABA EN EL ACTOR        
         g.drawImage(spriteCache.getSprite(casilla.getSpriteName()), casilla.getX(), casilla.getY(), this);
+
+    }
+
+    private void seleccionarBarco(ArrayList<TipoBarco> tipoBarcoList) {
+
+        int rand = (int) (Math.random() * (4) + 1);
+        TipoBarco tipoBarco;
+        if (rand == 1) {
+            tipoBarco = TipoBarco.SMALL;
+            tipoBarcoList.add(tipoBarco);
+        }
+        if (rand == 2) {
+            tipoBarco = TipoBarco.MEDIUM;
+            tipoBarcoList.add(tipoBarco);
+            tipoBarco = TipoBarco.MEDIUM_2;
+            tipoBarcoList.add(tipoBarco);
+        } else if (rand == 3) {
+            tipoBarco = TipoBarco.BIG;
+            tipoBarcoList.add(tipoBarco);
+            tipoBarco = TipoBarco.BIG_2;
+            tipoBarcoList.add(tipoBarco);
+            tipoBarco = TipoBarco.BIG_3;
+            tipoBarcoList.add(tipoBarco);
+        } else if (rand == 4) {
+            tipoBarco = TipoBarco.BIGGEST;
+            tipoBarcoList.add(tipoBarco);
+            tipoBarco = TipoBarco.BIGGEST_2;
+            tipoBarcoList.add(tipoBarco);
+            tipoBarco = TipoBarco.BIGGEST_3;
+            tipoBarcoList.add(tipoBarco);
+            tipoBarco = TipoBarco.BIGGEST_4;
+            tipoBarcoList.add(tipoBarco);
+
+        }
+        System.out.println("Tipo de Barco: " + rand);
 
     }
 

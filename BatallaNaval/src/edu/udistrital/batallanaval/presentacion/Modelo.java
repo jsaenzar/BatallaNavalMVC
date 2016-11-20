@@ -53,7 +53,7 @@ public class Modelo implements Runnable, Escenario {
         }
         if (esCliente) {
             getSistema();
-            getSistema().setNombreCliente("Sáenz");
+            getSistema().setNombreCliente("Saenz");
             getSistema().getCliente().iniciarCliente("192.168.0.36", 7000);
         }
         hilo.run();

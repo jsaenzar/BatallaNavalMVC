@@ -12,11 +12,11 @@ public class Cliente implements Runnable {
     private Thread hilo;
     private DataInputStream flujoLectura;
     private DataOutputStream flujoEscritura;
-    private String nombreJugador;
+    private String nombreCliente;
     private Comando comando;
 
-    public Cliente(String nombreJugador) {
-        this.nombreJugador = nombreJugador;
+    public Cliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
         running = false;
     }
 
@@ -35,12 +35,13 @@ public class Cliente implements Runnable {
             //ENVIAR EL MENSAJE CON(Saenz)
 //            comando = Comando.CONECTAR;
             flujoEscritura = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-            flujoEscritura.writeUTF("BNAVAL:" + Comando.CONECTAR.getNombre() + nombreJugador);
+            flujoEscritura.writeUTF("BNAVAL:" + Comando.CONECTAR.getNombre() + "," + nombreCliente);
             flujoEscritura.flush();
 
-            System.out.println("Servidor.cliente: ClientSocket has started succesfully");
+            System.out.println("Cliente: ClientSocket has started succesfully");
         } catch (IOException e) {
-            System.out.println("El socket del cliente NO ha iniciado satisfactoriamente");
+            System.out.println("Cliente: El socket del cliente NO ha iniciado satisfactoriamente");
+            System.exit(1);
         }
     }
 }

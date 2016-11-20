@@ -8,6 +8,7 @@ package edu.udistrital.batallanaval.logica;
 import edu.udistrital.batallanaval.enums.TipoBarco;
 import edu.udistrital.batallanaval.logica.socket.Cliente;
 import edu.udistrital.batallanaval.logica.socket.Servidor;
+import edu.udistrital.batallanaval.logica.socket.ServidorCliente;
 import java.util.ArrayList;
 
 /**
@@ -25,7 +26,9 @@ public class Sistema {
     private ArrayList casillas;
     private Cliente cliente;
     private Servidor servidor;
-private String nombreCliente;
+    private ServidorCliente servidorCliente;
+
+    private String nombreCliente;
 
     public Sistema() {
 
@@ -303,14 +306,13 @@ private String nombreCliente;
 
     public Cliente getCliente() {
         if (cliente == null) {
-            cliente = new Cliente(nombreCliente);            
+            cliente = new Cliente(nombreCliente);
         }
         return cliente;
     }
 
     public Servidor getServidor() {
         if (servidor == null) {
-            System.out.println("getServidor() ------------------------");
             servidor = new Servidor();
         }
         return servidor;
@@ -327,6 +329,8 @@ private String nombreCliente;
     public void setNombreCliente(String nombreCliente) {
         this.nombreCliente = nombreCliente;
     }
-    
-    
+
+    public ServidorCliente getServidorCliente() {
+        return servidorCliente;
+    }
 }

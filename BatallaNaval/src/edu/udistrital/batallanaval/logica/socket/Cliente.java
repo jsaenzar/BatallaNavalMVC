@@ -58,20 +58,6 @@ public class Cliente implements Runnable {
         } catch (Exception e) {
         }
     }
-    
-//    public void sendMessage(Message message) {
-//        try {
-//            lastCommand = message.getCommand();
-//            String strConnectionMessage = message.getString();
-//
-//            LOGGER.debug("Client writing Message {}", strConnectionMessage);
-//            dataOutputStream.writeUTF(strConnectionMessage);
-//            dataOutputStream.flush();
-//        } catch (IOException e) {
-//            LOGGER.error("Oops! There is an unexpected error", e);
-//            throw new AssertionError("Player Connection Error", e);
-//        }
-//    }
 
     public DataOutputStream getDataOutputStream() {
         return dataOutputStream;

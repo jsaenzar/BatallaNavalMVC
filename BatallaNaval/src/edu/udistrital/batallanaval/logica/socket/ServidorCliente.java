@@ -61,10 +61,10 @@ public class ServidorCliente implements Runnable {
 //                        escribirMensaje(dataOutputStream, "-OK-");
                         break;
                     case "BNAVAL:ATK":
-                        System.out.println(mensaje.getStrComando());
-                        dataOutputStream.writeUTF("OKALGO");
-                        dataOutputStream.flush();
-//                      
+                        System.out.println(mensaje.getStrComando() + "," + mensaje.getStrParam1()+ "," + mensaje.getStrParam2());
+                        servidor.validarAtacante(this, mensaje.getStrComando() + "," + mensaje.getStrParam1()+ "," + mensaje.getStrParam2());
+//                        dataOutputStream.writeUTF("OKALGO");
+//                        dataOutputStream.flush();//                      
                         break;
                     default:
                         System.out.println("ERROR AL PROCESAR COMANDO");
@@ -76,13 +76,13 @@ public class ServidorCliente implements Runnable {
         }
     }
 
-//    public void escribirMensaje(DataOutputStream dataOutputStream, String mensaje) {
-//        try {
-//            dataOutputStream.writeUTF(mensaje);
-//            dataOutputStream.flush();
-//        } catch (Exception e) {
-//        }
-//    }
+    public void escribirMensaje(String mensaje) {
+        try {
+            dataOutputStream.writeUTF(mensaje);
+            dataOutputStream.flush();
+        } catch (Exception e) {
+        }
+    }
 
     private void referenceOutputStream(DataOutputStream dataOutputStream) {
         this.dataOutputStream = dataOutputStream;

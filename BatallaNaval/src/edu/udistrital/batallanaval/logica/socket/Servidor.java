@@ -2,6 +2,7 @@ package edu.udistrital.batallanaval.logica.socket;
 
 import java.io.*;
 import java.net.*;
+import java.util.Objects;
 import java.util.Vector;
 
 public class Servidor implements Runnable {
@@ -75,5 +76,15 @@ public class Servidor implements Runnable {
             System.out.println("Servidor.iniciarServidor: Error: " + ioe);
             throw new AssertionError("Player Connection Error", ioe);
         }
+    }
+    
+    public void validarAtacante(ServidorCliente servidorCliente, String mensaje){
+         if (Objects.equals(servidorCliente, home)) {
+             System.out.println("Home");
+             guest.escribirMensaje(mensaje);
+         }
+         else{
+             System.out.println("Guest");
+         }            
     }
 }

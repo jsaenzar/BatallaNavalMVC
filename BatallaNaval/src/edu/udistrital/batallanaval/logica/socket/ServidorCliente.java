@@ -45,13 +45,35 @@ public class ServidorCliente implements Runnable {
             while (running) {
                 Mensaje mensaje = new Mensaje(dataInputStream);
                 mensaje.leerFlujo();
-                System.out.println("Escupalo x2: " + mensaje.getStrComando() + "," + mensaje.getStrParam1());
-                
-                dataOutputStream.writeUTF("OK,Leonardo");
-                dataOutputStream.flush();
+
+                if (mensaje.getStrComando().equals("CON")) {
+                    System.out.println("CON: " + mensaje.getStrComando() + "," + mensaje.getStrParam1());
+//                    escribirMensaje(dataOutputStream, "BNAVAL:"+mensaje.getStrComando() + "," + mensaje.getStrParam1());
+                    escribirMensaje(dataOutputStream, "OK,Pepe");
+                } else if (mensaje.getStrComando().equals("LIS")) {
+                    escribirMensaje(dataOutputStream, mensaje.getStrComando());
+                    escribirMensaje(dataOutputStream, "OK,Lis");
+                } else if (mensaje.getStrComando().equals("ATK")) {
+//                    escribirMensaje(dataOutputStream, mensaje.getStrComando() + "," + mensaje.getStrParam1());
+
+                } else {
+                    System.out.println("ERROR AL PROCESAR COMANDO");
+                }
+
+//                  dataOutputStream.writeUTF("OK,Leonardo");
+//                dataOutputStream.flush();
+                //escribirMensaje(dataOutputStream, "OK,PEPE");
             }
         } catch (Exception e) {
 
+        }
+    }
+    
+    public void escribirMensaje(DataOutputStream dataOutputStream, String mensaje) {
+        try {
+            dataOutputStream.writeUTF(mensaje);
+            dataOutputStream.flush();
+        } catch (Exception e) {
         }
     }
 

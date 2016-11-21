@@ -76,9 +76,7 @@ public class Modelo implements Runnable, Escenario {
     }
 
     public void initWorld() {
-
         getSistema().initWorld();
-
         System.out.println("***********************MUNDO CARGADO******************************************");
     }
 
@@ -119,17 +117,13 @@ public class Modelo implements Runnable, Escenario {
     public void checkClick(int x, int y) {
 //       jsaenzar: SE COMENTA CODIGO ORIGINAL 
 //        if (estado.compareTo("Nuevo") == 0 && cBarcosAmigos < 10) {
-
 //        if (estado.compareTo("Nuevo") == 0) {
-        if (!getSistema().isBarcosAmigosCargados()) {
-
+        if (!getSistema().isBarcosAmigosCargados()) {            
             ArrayList<TipoBarco> tipoBarcoList = new ArrayList<>();
-
             seleccionarBarco(tipoBarcoList);
-
 //            getSistema().cargarBarcosAmigos(x, y, tipoBarco, casillas);
             getSistema().cargarBarcosAmigos(x, y, tipoBarcoList);
-
+            
         } else if (cBarcosEnemigos < 2) {
 //            getSistema().validarImpactoCasillaEnemigo(x, y, casillas);
             getSistema().validarImpactoCasillaEnemigo(x, y);

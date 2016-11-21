@@ -83,79 +83,53 @@ public class Sistema {
             }
         }
 
-        y = 10;
-        for (int j = 0; j < 10; j++) {
-            x = 800;
-            y += 32;
-            for (int i = 0; i < 10; i++) {
-                x += 32;
-                Casilla m = new Casilla(/*this*/);
-                m.setX(x);
-                m.setY(y);
-                int[][] u = new int[1][2];
-                u[0][0] = j;
-                u[0][1] = i;
-                m.setUbicacion(u);
-//                m.setTipo(2);
-//                System.out.println("Casillas Amigas desde Enemigo - Coordenadas: " + "(" + x + "," + y + ")"
-//                        + " Ubicacion: " + "(" + m.getUbicacion()[0][0] + "," + m.getUbicacion()[0][1] + ")");
-                casillas.add(m);
-
-            }
-        }
-
-        cargarCasillasOcupadasEnemigo(casillas);
-
+//        y = 10;
+//        for (int j = 0; j < 10; j++) {
+//            x = 800;
+//            y += 32;
+//            for (int i = 0; i < 10; i++) {
+//                x += 32;
+//                Casilla m = new Casilla(/*this*/);
+//                m.setX(x);
+//                m.setY(y);
+//                int[][] u = new int[1][2];
+//                u[0][0] = j;
+//                u[0][1] = i;
+//                m.setUbicacion(u);
+////                m.setTipo(2);
+////                System.out.println("Casillas Amigas desde Enemigo - Coordenadas: " + "(" + x + "," + y + ")"
+////                        + " Ubicacion: " + "(" + m.getUbicacion()[0][0] + "," + m.getUbicacion()[0][1] + ")");
+//                casillas.add(m);
+//
+//            }
+//        }
+//
+//        cargarCasillasOcupadasEnemigo(casillas);
     }
 
     public void cargarBarcosAmigos(int x, int y, ArrayList tipoBarcoList/*, ArrayList casillas*/) {
-
         if (barcosAmigosList.size() < 10) {
             Actor barcoAmigo = new Actor();
             boolean isAgregarBarco = false;
             for (int i = 0; i < 100; i++) {
-//             jsaenzar: SE COMENTA DEL CODIGO ORIGINAL
-//                Actor m = (Actor) actors.get(i);
-
-//                jsaenzar: SE CARGA EL LISTADO DE CASILLAS OCUPADAS POR BARCOS AMIGOS
                 Casilla m = (Casilla) casillas.get(i);
-                //             jsaenzar: SE COMENTA DEL CODIGO ORIGINAL               
-//                if (x <= m.getWidth() + m.getX() && x > m.getX() && y <= m.getHeight() + m.getY() && y > m.getY()) {
-
                 if (!m.isOcupado()) {
-
                     if (isClickEnCasilla(x, y, m.getX(), m.getY(), m.getWidth(), m.getHeight())) {
                         isAgregarBarco = true;
-//                        System.out.println("Click - posicion Barco: (" + m.getX() + "," + m.getY() + ")");
-//                        System.out.println("Click - tamanio Celda: (" + m.getWidth() + "," + m.getHeight() + ")");
-////                    if (y <= m.getHeight() + m.getY() && y > m.getY()) {
-////                        m.setSpriteName("ship-white.png");
-////                        m.setSpriteName("ship-white64.png");
-//
-//                        System.out.println("Click - tamanio Barco: (" + m.getWidth() + "," + m.getHeight() + ")");
-//                        barcosAmigos.add(m);
-//                        cBarcosAmigos++;
-
-//                jsaenzar: SE CARGA BARCO AMIGO EN EL LISTADO DE ACTORES - BARCOS AMIGOS                       
                         TipoBarco t = (TipoBarco) tipoBarcoList.get(0);
                         for (int a = 0; a < t.getNumCasillas(); a++) {
-
                             cargarCasillaBarcoAmigo(i, a, tipoBarcoList, m, barcoAmigo);
                         }
-
                     }
-
                 }
-
             }
             if (isAgregarBarco) {
                 barcosAmigosList.add(barcoAmigo);
                 isAgregarBarco = false;
-
             }
-
         } else {
             barcosAmigosCargados = true;
+            getCliente().escribirMensaje("LIS,ok");
             System.out.println("Contador barcosAmigosList:" + barcosAmigosList.size());
         }
     }

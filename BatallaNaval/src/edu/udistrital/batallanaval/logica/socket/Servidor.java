@@ -32,10 +32,10 @@ public class Servidor implements Runnable {
 
         try {
             Socket socketCliente = socketServidor.accept();
-//            System.out.println("Servidor.iniciarServidor: " + nombreCliente + " has been connected succesfully");
+            System.out.println("Servidor.iniciarServidor: " + nombreCliente + " has been connected succesfully");
             ServidorCliente servidorCliente = new ServidorCliente(this);
             servidorCliente.iniciarServidorCliente(socketCliente);
-            System.out.println("socket.getInetAddress(): " + socketCliente.getInetAddress().toString());
+//            System.out.println("socket.getInetAddress(): " + socketCliente.getInetAddress().toString());
 
 //            if (!socketCliente.getInetAddress().toString().equals("/127.0.0.1")) {
 ////                System.out.println("ENTRO AL IF: " + socketCliente.getInetAddress());

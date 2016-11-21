@@ -35,6 +35,7 @@ public class Cliente implements Runnable {
                 DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));) {
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
             referenceOuputStream(dataOutputStream);
+
             dataOutputStream.writeUTF("BNAVAL:" + Comando.CONECTAR.getNombre() + "," + nombreCliente);
             dataOutputStream.flush();
 
@@ -49,6 +50,28 @@ public class Cliente implements Runnable {
             System.exit(1);
         }
     }
+
+    public void escribirMensaje(String mensaje) {
+        try {
+            dataOutputStream.writeUTF(mensaje);
+            dataOutputStream.flush();
+        } catch (Exception e) {
+        }
+    }
+    
+//    public void sendMessage(Message message) {
+//        try {
+//            lastCommand = message.getCommand();
+//            String strConnectionMessage = message.getString();
+//
+//            LOGGER.debug("Client writing Message {}", strConnectionMessage);
+//            dataOutputStream.writeUTF(strConnectionMessage);
+//            dataOutputStream.flush();
+//        } catch (IOException e) {
+//            LOGGER.error("Oops! There is an unexpected error", e);
+//            throw new AssertionError("Player Connection Error", e);
+//        }
+//    }
 
     public DataOutputStream getDataOutputStream() {
         return dataOutputStream;

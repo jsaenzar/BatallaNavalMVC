@@ -30,8 +30,7 @@ public class ServidorCliente implements Runnable {
     }
 
     public void iniciarServidorCliente(Socket clienteSocket) {
-        System.out.println("ServidorCliente.iniciarServidorCliente: Starting client Thread in server: "
-                + clienteSocket.getInetAddress());
+        System.out.println("ServidorCliente.iniciarServidorCliente: Starting client Thread in server: " + clienteSocket.getInetAddress());
         this.clienteSocket = clienteSocket;
         running = true;
         hilo = new Thread(this);
@@ -44,23 +43,19 @@ public class ServidorCliente implements Runnable {
             DataOutputStream dataOutputStream = new DataOutputStream(clienteSocket.getOutputStream());
             referenceOutputStream(dataOutputStream);
             while (running) {
-                String msjRecibido = dataInputStream.readUTF();
-                System.out.println("Escupalo: " + msjRecibido);
+                Mensaje mensaje = new Mensaje(dataInputStream);
+                mensaje.leerFlujo();
+                System.out.println("Escupalo x2: " + mensaje.getStrComando() + "," + mensaje.getStrParam1());
+                
+                dataOutputStream.writeUTF("OK,Leonardo");
+                dataOutputStream.flush();
             }
         } catch (Exception e) {
 
         }
-
-//        try (InputStream is = clienteSocket.getInputStream()) {
-//            OutputStream os = clienteSocket.getOutputStream();
-//            System.out.println("ServidorCliente.run: Client Thread has started succesfully");
-//        } catch (Exception e) {
-//            //System.out.print("ServidorCliente.run: Client Thread hasn't started succesfully");
-//        }
     }
 
     private void referenceOutputStream(DataOutputStream dataOutputStream) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         this.dataOutputStream = dataOutputStream;
     }
 }

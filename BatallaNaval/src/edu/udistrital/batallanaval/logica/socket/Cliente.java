@@ -10,13 +10,11 @@ public class Cliente implements Runnable {
     private String hostName;
     private int puerto;
     private Thread hilo;
-    private DataInputStream flujoLectura;
-    private DataOutputStream flujoEscritura;
     private String mensajeRecibido;
     private String nombreCliente;
     private Comando comando;
-//    private Socket socket;
-    
+    private DataOutputStream dataOutputStream;
+
     public Cliente(String nombreCliente) {
         this.nombreCliente = nombreCliente;
         running = false;
@@ -33,19 +31,18 @@ public class Cliente implements Runnable {
 
     @Override
     public void run() {
-        try  {
-            //ENVIAR EL MENSAJE CON(Saenz)
-//            comando = Comando.CONECTAR;
-            Socket socket = new Socket(hostName, puerto);
-            flujoEscritura = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-            flujoEscritura.writeUTF("BNAVAL:" + Comando.CONECTAR.getNombre() + "," + nombreCliente);
-            flujoEscritura.flush();
-            
-//            while(running){
-//                String strReceivedMessage = flujoLectura.readUTF();
-//                System.out.println("Cliente.run: Mensaje recibido: " + strReceivedMessage);
-//            }
-//            flujoEscritura.close();
+        try (Socket socket = new Socket(hostName, puerto);
+                DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));) {
+            DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+            referenceOuputStream(dataOutputStream);
+            dataOutputStream.writeUTF("BNAVAL:" + Comando.CONECTAR.getNombre() + "," + nombreCliente);
+            dataOutputStream.flush();
+
+            while (running) {
+                String strReceivedMessage = dataInputStream.readUTF();
+                System.out.println("Cliente.run: Escupalo: " + strReceivedMessage);
+            }
+//            dataOutputStream.close();
             System.out.println("Cliente: ClientSocket has started succesfully");
         } catch (IOException e) {
             System.out.println("Cliente: El socket del cliente NO ha iniciado satisfactoriamente");
@@ -53,13 +50,12 @@ public class Cliente implements Runnable {
         }
     }
 
-    public DataOutputStream getFlujoEscritura() {
-        return flujoEscritura;
+    public DataOutputStream getDataOutputStream() {
+        return dataOutputStream;
     }
 
-//    public Socket getSocket() {
-//        return socket;
-//    }
-    
-    
+    private void referenceOuputStream(DataOutputStream dataOutputStream) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.dataOutputStream = dataOutputStream;
+    }
 }

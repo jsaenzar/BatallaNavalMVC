@@ -45,38 +45,44 @@ public class ServidorCliente implements Runnable {
             while (running) {
                 Mensaje mensaje = new Mensaje(dataInputStream);
                 mensaje.leerFlujo();
-
                 System.out.println("mensaje.getStrComando(): " + mensaje.getStrComando());
-                
-                if (mensaje.getStrComando().equals("BNAVAL:CON")) {
-                    System.out.println(mensaje.getStrComando() + "," + mensaje.getStrParam1());
-//                    escribirMensaje(dataOutputStream, "BNAVAL:"+mensaje.getStrComando() + "," + mensaje.getStrParam1());
-                    escribirMensaje(dataOutputStream, "-OK,Leo-");
-                } else if (mensaje.getStrComando().equals("BNAVAL:LIS")) {
-//                    escribirMensaje(dataOutputStream, mensaje.getStrComando());
-                    escribirMensaje(dataOutputStream, "-OK-");
-                } else if (mensaje.getStrComando().equals("BNAVL:ATK")) {
-//                    escribirMensaje(dataOutputStream, mensaje.getStrComando() + "," + mensaje.getStrParam1());
 
-                } else {
-                    System.out.println("ERROR AL PROCESAR COMANDO");
+                switch (mensaje.getStrComando()) {
+                    case "BNAVAL:CON":
+                        System.out.println(mensaje.getStrComando() + "," + mensaje.getStrParam1());
+                        dataOutputStream.writeUTF("OK,Leo");
+                        dataOutputStream.flush();
+//                        escribirMensaje(dataOutputStream, "-OK,Leo-");
+                        break;
+                    case "BNAVAL:LIS":
+                        System.out.println(mensaje.getStrComando());
+                        dataOutputStream.writeUTF("OK");
+                        dataOutputStream.flush();
+//                        escribirMensaje(dataOutputStream, "-OK-");
+                        break;
+                    case "BNAVAL:ATK":
+                        System.out.println(mensaje.getStrComando());
+                        dataOutputStream.writeUTF("OKALGO");
+                        dataOutputStream.flush();
+//                      
+                        break;
+                    default:
+                        System.out.println("ERROR AL PROCESAR COMANDO");
+                        break;
                 }
-//                dataOutputStream.writeUTF("OK,Leonardo");
-//                dataOutputStream.flush();
-                //escribirMensaje(dataOutputStream, "OK,PEPE");
             }
         } catch (Exception e) {
 
         }
     }
 
-    public void escribirMensaje(DataOutputStream dataOutputStream, String mensaje) {
-        try {
-            dataOutputStream.writeUTF(mensaje);
-            dataOutputStream.flush();
-        } catch (Exception e) {
-        }
-    }
+//    public void escribirMensaje(DataOutputStream dataOutputStream, String mensaje) {
+//        try {
+//            dataOutputStream.writeUTF(mensaje);
+//            dataOutputStream.flush();
+//        } catch (Exception e) {
+//        }
+//    }
 
     private void referenceOutputStream(DataOutputStream dataOutputStream) {
         this.dataOutputStream = dataOutputStream;

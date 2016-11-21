@@ -10,6 +10,7 @@ import edu.udistrital.batallanaval.logica.socket.Cliente;
 import edu.udistrital.batallanaval.logica.socket.Servidor;
 import edu.udistrital.batallanaval.logica.socket.ServidorCliente;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -157,7 +158,6 @@ public class Sistema {
     }
 
     public void validarImpactoCasillaEnemigo(int x, int y/*, ArrayList casillas*/) {
-
         impactoCasillaEnemigo = false;
         for (int i = 100; i < 200; i++) {
 //             jsaenzar: SE COMENTA DEL CODIGO ORIGINAL
@@ -168,29 +168,21 @@ public class Sistema {
             if (isClickEnCasilla(x, y, m.getX(), m.getY(), m.getWidth(), m.getHeight())) {
                 clicTableroCorrecto = true;
                 System.out.println("Click: (" + m.getX() + "," + m.getY() + ")");
-//                        for (int j = 0; j < 10; j++) {
-//                            //             jsaenzar: SE COMENTA DEL CODIGO ORIGINAL
-////                            Actor n = (Actor) barcosEnemigos.get(j);
-//                            Casilla n = (Casilla) barcosEnemigos.get(j);
+//                for (Casilla n : casillasEnemigo) {
 //
-//                            if (m.getX() == n.getX() && m.getY() == n.getY()) {
-//                                m.setSpriteName("ship-red.png");
-//                                break;
-//                            } else {
-//                                m.setSpriteName("ship-blue.png");
-//                            }
-//                        }
-
-                for (Casilla n : casillasEnemigo) {
-
-                    if (m.getX() == n.getX() && m.getY() == n.getY()) {
-                        m.setSpriteName("ship-red.png");
-                        impactoCasillaEnemigo = true;
-                        break;
-                    } else {
-                        m.setSpriteName("ship-blue.png");
-                    }
-                }
+//                    if (m.getX() == n.getX() && m.getY() == n.getY()) {
+//                        m.setSpriteName("ship-red.png");
+//                        impactoCasillaEnemigo = true;
+//                        break;
+//                    } else {
+//                        m.setSpriteName("ship-blue.png");
+//                    }
+//                }
+                int coordX = m.getUbicacion()[0][0] + 1;
+                int coordY = m.getUbicacion()[0][1] + 1;
+                System.out.println(coordX);
+                System.out.println(coordY);
+                getCliente().escribirMensaje("BNAVAL:ATK," + coordX + "," + coordY);
                 break;
 
             } else {

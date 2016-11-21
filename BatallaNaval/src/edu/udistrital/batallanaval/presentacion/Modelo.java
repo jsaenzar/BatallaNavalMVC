@@ -151,7 +151,6 @@ public class Modelo implements Runnable, Escenario {
             if (!getSistema().isClicTableroCorrecto()) {
                 System.out.println("No hizo click en casilla indicada. Intente nuevamente!");
             }
-
         }
     }
 

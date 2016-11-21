@@ -82,22 +82,21 @@ public class Controlador implements MouseListener, WindowListener {
 
     @Override
     public void windowClosing(WindowEvent we) {
-        System.out.println("WindowEvent");
-        try {
-            getVista().getModelo().getSistema().getCliente().getFlujoEscritura().close();
-            getVista().getModelo().getSistema().getCliente().getSocket().close();
-            
-
-            if (getVista().getModelo().getSistema().getServidor() != null) {
-                System.out.println("WindowEvent if");
-                getVista().getModelo().getSistema().getServidor().getFlujoLectura();
-                getVista().getModelo().getSistema().getServidor().getSocket().close();
-            }
-            System.out.println("Socket cerrado");
-        } catch (IOException ex) {
-            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println("Cerrando Ventana");
+//        System.out.println("WindowEvent");
+//        try {
+//            getVista().getModelo().getSistema().getCliente().getFlujoEscritura().close();
+//            getVista().getModelo().getSistema().getCliente().getSocket().close();
+//            
+//            if (getVista().getModelo().getSistema().getServidor() != null) {
+//                System.out.println("WindowEvent if");
+//                getVista().getModelo().getSistema().getServidor().getFlujoLectura().close();
+//                getVista().getModelo().getSistema().getServidor().getSocket().close();
+//            }
+//            System.out.println("Socket cerrado");
+//        } catch (IOException ex) {
+//            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        System.out.println("Cerrando Ventana");
         System.exit(0);
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

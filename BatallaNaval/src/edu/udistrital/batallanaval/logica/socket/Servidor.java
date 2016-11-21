@@ -86,7 +86,7 @@ public class Servidor implements Runnable {
          }
          else{
              System.out.println("Guest");
-             home.escribirMensaje(mensaje);
+//             home.escribirMensaje(mensaje);
          }            
     }
 }

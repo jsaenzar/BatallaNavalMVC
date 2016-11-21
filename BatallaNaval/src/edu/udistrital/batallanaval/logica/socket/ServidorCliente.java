@@ -43,6 +43,9 @@ public class ServidorCliente implements Runnable {
             DataOutputStream dataOutputStream = new DataOutputStream(clienteSocket.getOutputStream());
             referenceOutputStream(dataOutputStream);
             while (running) {
+//                Mensaje mensaje = new Mensaje(dataInputStream);
+//                mensaje.leerFlujo(dataInputStream);
+
                 Mensaje mensaje = new Mensaje();
                 mensaje.leerFlujo(dataInputStream);
                 System.out.println("mensaje.getStrComando(): " + mensaje.getStrComando());
@@ -61,8 +64,8 @@ public class ServidorCliente implements Runnable {
 //                        escribirMensaje(dataOutputStream, "-OK-");
                         break;
                     case "BNAVAL:ATK":
-                        System.out.println(mensaje.getStrComando() + "," + mensaje.getStrParam1()+ "," + mensaje.getStrParam2());
-                        servidor.validarAtacante(this, mensaje.getStrComando() + "," + mensaje.getStrParam1()+ "," + mensaje.getStrParam2());
+                        System.out.println(mensaje.getStrComando() + "," + mensaje.getStrParam1() + "," + mensaje.getStrParam2());
+                        servidor.validarAtacante(this, mensaje.getStrComando() + "," + mensaje.getStrParam1() + "," + mensaje.getStrParam2());
 //                        dataOutputStream.writeUTF("OKALGO");
 //                        dataOutputStream.flush();//                      
                         break;

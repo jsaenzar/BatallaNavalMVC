@@ -10,20 +10,20 @@ import java.io.IOException;
  */
 public class Mensaje {
 
-    private DataInputStream flujoLectura;
+//    private DataInputStream flujoLectura;
     private String strComando;
     private String strParam1;
     private String strParam2;
-    private String strReceivedMessage;
+//    private String strReceivedMessage;
 
-    public Mensaje() {
+    public Mensaje(/*DataInputStream flujoEntrada*/) {
 //        this.flujoLectura = flujoEntrada;
 //        this.flujoLectura = flujoEntrada;
 //        this.strReceivedMessage = strReceivedMessage;
     }
 
     public void leerFlujo(DataInputStream flujoEntrada) throws IOException {
-        String mensaje = flujoLectura.readUTF();
+        String mensaje = flujoEntrada.readUTF();
         String[] strings = mensaje.split(",");
         setStrComando(strings[0]);
         setStrParam1(strings[1]);
@@ -35,7 +35,10 @@ public class Mensaje {
     public void splitString(String strReceivedMessage) throws IOException {
         String[] strings = strReceivedMessage.split(",");
         setStrComando(strings[0]);
-        setStrParam1(strings[1]);
+        if (strings.length > 1) {
+            setStrParam1(strings[1]);
+        }
+        
         if (strings.length == 3) {
             setStrParam2(strings[2]);
         }

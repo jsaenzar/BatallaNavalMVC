@@ -49,12 +49,12 @@ public class ServidorCliente implements Runnable {
                 System.out.println("mensaje.getStrComando(): " + mensaje.getStrComando());
                 
                 if (mensaje.getStrComando().equals("BNAVAL:CON")) {
-                    System.out.println("CON: " + mensaje.getStrComando() + "," + mensaje.getStrParam1());
+                    System.out.println(mensaje.getStrComando() + "," + mensaje.getStrParam1());
 //                    escribirMensaje(dataOutputStream, "BNAVAL:"+mensaje.getStrComando() + "," + mensaje.getStrParam1());
-                    escribirMensaje(dataOutputStream, "OK,Pepe");
+                    escribirMensaje(dataOutputStream, "-OK,Leo-");
                 } else if (mensaje.getStrComando().equals("BNAVAL:LIS")) {
 //                    escribirMensaje(dataOutputStream, mensaje.getStrComando());
-                    escribirMensaje(dataOutputStream, "OK!");
+                    escribirMensaje(dataOutputStream, "-OK-");
                 } else if (mensaje.getStrComando().equals("BNAVL:ATK")) {
 //                    escribirMensaje(dataOutputStream, mensaje.getStrComando() + "," + mensaje.getStrParam1());
 

@@ -25,7 +25,7 @@ public class Flujo extends Thread {
 //        String usuario = JOptionPane.showInputDialog("Ingresa tu NicK: ");
         String usuario  = "servidor";
         broadcast("(" + usuario + " se ha conectado)\n");
-        Servidor.usuarios.add((Object) this);
+//        Servidor.usuarios.add((Object) this);
 
         while (true) {
             try {
@@ -35,7 +35,7 @@ public class Flujo extends Thread {
                     broadcast(linea);
                 }
             } catch (IOException ioe) {
-                Servidor.usuarios.removeElement(this);
+//                Servidor.usuarios.removeElement(this);
                 broadcast("(" + usuario + " se ha desconectado)\n");
                 break;
             }

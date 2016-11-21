@@ -11,8 +11,9 @@ public class Servidor implements Runnable {
     private boolean running;
     private DataInputStream flujoLectura;
     private DataOutputStream flujoEscritura;
+    private ServidorCliente home;
+    private ServidorCliente guest;
 //    private Socket socketCliente;
-
     public static Vector usuarios = new Vector();
 
     public Servidor() {
@@ -27,64 +28,52 @@ public class Servidor implements Runnable {
         System.out.println("Servidor.iniciarServidor: Starting server in port: " + puerto);
     }
 
-    public void establecerConexion(ServerSocket socketServidor, String tipoConexion, String nombreCliente) {
-        System.out.println("Servidor.iniciarServidor: Waiting for player " + nombreCliente + " connection");
-
-        try {
-            Socket socketCliente = socketServidor.accept();
-            System.out.println("Servidor.iniciarServidor: " + nombreCliente + " has been connected succesfully");
-            ServidorCliente servidorCliente = new ServidorCliente(this);
-            servidorCliente.iniciarServidorCliente(socketCliente);
-//            System.out.println("socket.getInetAddress(): " + socketCliente.getInetAddress().toString());
-
-//            if (!socketCliente.getInetAddress().toString().equals("/127.0.0.1")) {
-////                System.out.println("ENTRO AL IF: " + socketCliente.getInetAddress());
-//                flujoLectura = new DataInputStream(new BufferedInputStream(socketCliente.getInputStream()));
-//                String mensaje = flujoLectura.readUTF();
-//                System.out.println("Servidor.iniciarServidor: Mensaje recibido: " + mensaje);
-//            } else {
-//                System.out.println("ENTRO AL ELSE: " + socketCliente.getInetAddress());
+//   public void leerMensaje(Socket socket, String nombreCliente) throws IOException {
+////        if (!nombreCliente.equals("orejuela") && !nombreCliente.equals("cliente")) {
+//        flujoLectura = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+//        String mensaje = flujoLectura.readUTF();
+////        flujoLectura.close();
+//        System.out.println("Servidor.iniciarServidor:  Mensaje recibido: " + mensaje);
 //
-//            }
-
-        } catch (IOException ioe) {
-            System.out.println("Servidor.iniciarServidor: Error: " + ioe);
-        }
-    }
-
-    public void leerMensaje(Socket socket, String nombreCliente) throws IOException {
-//        if (!nombreCliente.equals("orejuela") && !nombreCliente.equals("cliente")) {
-        flujoLectura = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-        String mensaje = flujoLectura.readUTF();
-//        flujoLectura.close();
-        System.out.println("Servidor.iniciarServidor:  Mensaje recibido: " + mensaje);
-
-//        }            
-//            Mensaje mensaje = new Mensaje(flujoLectura);
-//            mensaje.leerFlujo();
-//            System.out.println("Servidor.iniciarServidor:  Mensaje recibido: " + mensaje.getStrComando() + ","
-//                    + mensaje.getStrParam1());
-//        }
-    }
-
+////        }            
+////            Mensaje mensaje = new Mensaje(flujoLectura);
+////            mensaje.leerFlujo();
+////            System.out.println("Servidor.iniciarServidor:  Mensaje recibido: " + mensaje.getStrComando() + ","
+////                    + mensaje.getStrParam1());
+////        }
+//    }
+//
 //    public Socket getSocket() {
 //        return socketCliente;
 //    }
-    public DataInputStream getFlujoLectura() {
-        return flujoLectura;
-    }
-
+//    public DataInputStream getFlujoLectura() {
+//        return flujoLectura;
+//    }
     @Override
     public void run() {
-        try (ServerSocket sfd = new ServerSocket(puerto)) {
+        try (ServerSocket serverSocket = new ServerSocket(puerto)) {
             System.out.println("Servidor.run: ServerSocket has started succesfully");
-            establecerConexion(sfd, "home", "orejuela");
-            establecerConexion(sfd, "guest", "orejuela");
-//            leerMensaje(socketCliente);
+            home = conexionJugador(serverSocket);
+            guest = conexionJugador(serverSocket);
         } catch (IOException ioe) {
             System.out.println("Comunicacion rechazada." + ioe);
             System.exit(1);
         }
     }
 
+    public ServidorCliente conexionJugador(ServerSocket socketServidor) {
+        System.out.println("Servidor.iniciarServidor: Waiting for player connection");
+
+        try {
+            Socket socketCliente = socketServidor.accept();
+            System.out.println("Servidor.iniciarServidor: " + socketCliente.getInetAddress().toString() + " has been connected succesfully");
+            ServidorCliente servidorCliente = new ServidorCliente(this);
+            servidorCliente.iniciarServidorCliente(socketCliente);
+            return servidorCliente;
+//            System.out.println(socketCliente.getInetAddress().toString());
+        } catch (IOException ioe) {
+            System.out.println("Servidor.iniciarServidor: Error: " + ioe);
+            throw new AssertionError("Player Connection Error", ioe);
+        }
+    }
 }

@@ -205,43 +205,63 @@ public class Sistema {
     }
 
     public void validarImpactoCasillaAmigo(int x, int y/*, ArrayList casillas*/) {
-
+        System.out.println("validarImpactoCasillaAmigo: " + x + "," + y);
         impactoCasillaAmigo = false;
-        for (int i = 200; i < 300; i++) {
 
-            Casilla m = (Casilla) casillas.get(i);
-            if (isClickEnCasilla(x, y, m.getX(), m.getY(), m.getWidth(), m.getHeight())) {
-                clicTableroCorrecto = true;
-                System.out.println("Click: (" + m.getX() + "," + m.getY() + ")");
-
-                for (int j = 0; j < 100; j++) {
-
-                    Casilla n = (Casilla) casillas.get(j);
-
-                    if (m.getUbicacion()[0][0] == n.getUbicacion()[0][0] && m.getUbicacion()[0][1] == n.getUbicacion()[0][1]) {
-                        if (n.isOcupado()) {
-                            impactoCasillaAmigo = true;
-                            m.setSpriteName("ship-red.png");
-                            n.setSpriteName("bomb.png");
-                            System.out.println("IMPACTO CASILLA AMIGO EXITOSO");
-                            break;
-                        } else {
-                            m.setSpriteName("ship-blue.png");
-                            break;
+        for (int j = 0; j < 100; j++) {
+            Casilla n = (Casilla) casillas.get(j);
+            if (x == n.getUbicacion()[0][0] && y == n.getUbicacion()[0][1]) {
+                if (n.isOcupado()) {
+                    impactoCasillaAmigo = true;
+//                    m.setSpriteName("ship-red.png");
+                    n.setSpriteName("bomb.png");
+                    System.out.println("IMPACTO CASILLA AMIGO EXITOSO");
+                    break;
+                } else {
+                    n.setSpriteName("ship-blue.png");
+                    break;
 //                            n.setSpriteName("ship-blue.png");
 
-                        }
-                    }
-
                 }
-                if (clicTableroCorrecto) {
-                    break;
-
-                }
-            } else {
-                clicTableroCorrecto = false;
             }
+
         }
+
+//        for (int i = 200; i < 300; i++) {
+//
+//            Casilla m = (Casilla) casillas.get(i);
+//            if (isClickEnCasilla(x, y, m.getX(), m.getY(), m.getWidth(), m.getHeight())) {
+//                clicTableroCorrecto = true;
+//                System.out.println("Click: (" + m.getX() + "," + m.getY() + ")");
+//
+//                for (int j = 0; j < 100; j++) {
+//
+//                    Casilla n = (Casilla) casillas.get(j);
+//
+//                    if (m.getUbicacion()[0][0] == n.getUbicacion()[0][0] && m.getUbicacion()[0][1] == n.getUbicacion()[0][1]) {
+//                        if (n.isOcupado()) {
+//                            impactoCasillaAmigo = true;
+//                            m.setSpriteName("ship-red.png");
+//                            n.setSpriteName("bomb.png");
+//                            System.out.println("IMPACTO CASILLA AMIGO EXITOSO");
+//                            break;
+//                        } else {
+//                            m.setSpriteName("ship-blue.png");
+//                            break;
+////                            n.setSpriteName("ship-blue.png");
+//
+//                        }
+//                    }
+//
+//                }
+//                if (clicTableroCorrecto) {
+//                    break;
+//
+//                }
+//            } else {
+//                clicTableroCorrecto = false;
+//            }
+//        }
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -272,7 +292,7 @@ public class Sistema {
 
     public Cliente getCliente() {
         if (cliente == null) {
-            cliente = new Cliente(nombreCliente);
+            cliente = new Cliente(nombreCliente, this);
         }
         return cliente;
     }

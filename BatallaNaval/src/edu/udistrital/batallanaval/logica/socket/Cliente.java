@@ -1,6 +1,7 @@
 package edu.udistrital.batallanaval.logica.socket;
 
 import edu.udistrital.batallanaval.enums.Comando;
+import edu.udistrital.batallanaval.logica.Sistema;
 import java.io.*;
 import java.net.*;
 
@@ -14,9 +15,11 @@ public class Cliente implements Runnable {
     private String nombreCliente;
     private Comando comando;
     private DataOutputStream dataOutputStream;
+    private Sistema sistema;
 
-    public Cliente(String nombreCliente) {
+    public Cliente(String nombreCliente, Sistema sistema) {
         this.nombreCliente = nombreCliente;
+        this.sistema = sistema;
         running = false;
     }
 
@@ -42,6 +45,14 @@ public class Cliente implements Runnable {
             while (running) {
                 String strReceivedMessage = dataInputStream.readUTF();
                 System.out.println("Cliente.run: Escupalo: " + strReceivedMessage);
+                Mensaje m = new Mensaje();
+                m.splitString(strReceivedMessage);
+                if (m.getStrComando().equals("BNAVAL:ATK")) {
+                    sistema.validarImpactoCasillaAmigo(Integer.parseInt(m.getStrParam1()),
+                            Integer.parseInt(m.getStrParam2()));
+                    sistema.isImpactoCasillaAmigo();
+                    System.out.println("sistema.isImpactoCasillaAmigo(): " + sistema.isImpactoCasillaAmigo());
+                }
             }
 //            dataOutputStream.close();
             System.out.println("Cliente: ClientSocket has started succesfully");

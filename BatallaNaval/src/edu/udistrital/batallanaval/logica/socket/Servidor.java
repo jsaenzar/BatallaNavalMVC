@@ -82,9 +82,11 @@ public class Servidor implements Runnable {
          if (Objects.equals(servidorCliente, home)) {
              System.out.println("Home");
              guest.escribirMensaje(mensaje);
+             
          }
          else{
              System.out.println("Guest");
+             home.escribirMensaje(mensaje);
          }            
     }
 }

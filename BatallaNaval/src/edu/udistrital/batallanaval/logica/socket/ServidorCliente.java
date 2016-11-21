@@ -43,8 +43,8 @@ public class ServidorCliente implements Runnable {
             DataOutputStream dataOutputStream = new DataOutputStream(clienteSocket.getOutputStream());
             referenceOutputStream(dataOutputStream);
             while (running) {
-                Mensaje mensaje = new Mensaje(dataInputStream);
-                mensaje.leerFlujo();
+                Mensaje mensaje = new Mensaje();
+                mensaje.leerFlujo(dataInputStream);
                 System.out.println("mensaje.getStrComando(): " + mensaje.getStrComando());
 
                 switch (mensaje.getStrComando()) {

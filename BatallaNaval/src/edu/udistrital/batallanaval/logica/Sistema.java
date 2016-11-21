@@ -129,7 +129,7 @@ public class Sistema {
             }
         } else {
             barcosAmigosCargados = true;
-            getCliente().escribirMensaje("LIS,ok");
+            getCliente().escribirMensaje("BNAVAL:LIS,ok");
             System.out.println("Contador barcosAmigosList:" + barcosAmigosList.size());
         }
     }

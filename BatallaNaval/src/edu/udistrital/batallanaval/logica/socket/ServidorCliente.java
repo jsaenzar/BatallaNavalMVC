@@ -46,21 +46,22 @@ public class ServidorCliente implements Runnable {
                 Mensaje mensaje = new Mensaje(dataInputStream);
                 mensaje.leerFlujo();
 
-                if (mensaje.getStrComando().equals("CON")) {
+                System.out.println("mensaje.getStrComando(): " + mensaje.getStrComando());
+                
+                if (mensaje.getStrComando().equals("BNAVAL:CON")) {
                     System.out.println("CON: " + mensaje.getStrComando() + "," + mensaje.getStrParam1());
 //                    escribirMensaje(dataOutputStream, "BNAVAL:"+mensaje.getStrComando() + "," + mensaje.getStrParam1());
                     escribirMensaje(dataOutputStream, "OK,Pepe");
-                } else if (mensaje.getStrComando().equals("LIS")) {
-                    escribirMensaje(dataOutputStream, mensaje.getStrComando());
-                    escribirMensaje(dataOutputStream, "OK,Lis");
-                } else if (mensaje.getStrComando().equals("ATK")) {
+                } else if (mensaje.getStrComando().equals("BNAVAL:LIS")) {
+//                    escribirMensaje(dataOutputStream, mensaje.getStrComando());
+                    escribirMensaje(dataOutputStream, "OK!");
+                } else if (mensaje.getStrComando().equals("BNAVL:ATK")) {
 //                    escribirMensaje(dataOutputStream, mensaje.getStrComando() + "," + mensaje.getStrParam1());
 
                 } else {
                     System.out.println("ERROR AL PROCESAR COMANDO");
                 }
-
-//                  dataOutputStream.writeUTF("OK,Leonardo");
+//                dataOutputStream.writeUTF("OK,Leonardo");
 //                dataOutputStream.flush();
                 //escribirMensaje(dataOutputStream, "OK,PEPE");
             }
@@ -68,7 +69,7 @@ public class ServidorCliente implements Runnable {
 
         }
     }
-    
+
     public void escribirMensaje(DataOutputStream dataOutputStream, String mensaje) {
         try {
             dataOutputStream.writeUTF(mensaje);

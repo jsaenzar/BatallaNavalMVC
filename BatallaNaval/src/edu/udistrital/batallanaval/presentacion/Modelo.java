@@ -118,15 +118,15 @@ public class Modelo implements Runnable, Escenario {
 //       jsaenzar: SE COMENTA CODIGO ORIGINAL 
 //        if (estado.compareTo("Nuevo") == 0 && cBarcosAmigos < 10) {
 //        if (estado.compareTo("Nuevo") == 0) {
-        if (!getSistema().isBarcosAmigosCargados()) {            
+        if (!getSistema().isBarcosAmigosCargados()) {
             ArrayList<TipoBarco> tipoBarcoList = new ArrayList<>();
             seleccionarBarco(tipoBarcoList);
 //            getSistema().cargarBarcosAmigos(x, y, tipoBarco, casillas);
             getSistema().cargarBarcosAmigos(x, y, tipoBarcoList);
-            
+
         } else if (cBarcosEnemigos < 2) {
 //            getSistema().validarImpactoCasillaEnemigo(x, y, casillas);
-            getSistema().validarImpactoCasillaEnemigo(x, y);
+            getSistema().impactarCasillaEnemigo(x, y);
             if (getSistema().isClicTableroCorrecto()) {
                 if (getSistema().isImpactoCasillaEnemigo()) {
                     cBarcosEnemigos++;
@@ -146,11 +146,12 @@ public class Modelo implements Runnable, Escenario {
 
         } else {
 
-//            getSistema().validarImpactoCasillaAmigo(x, y, casillas);
-            getSistema().validarImpactoCasillaAmigo(x, y);
-            if (!getSistema().isClicTableroCorrecto()) {
-                System.out.println("No hizo click en casilla indicada. Intente nuevamente!");
-            }
+            System.out.println("GANO!");
+////            getSistema().validarImpactoCasillaAmigo(x, y, casillas);
+//            getSistema().validarImpactoCasillaAmigo(x, y);
+//            if (!getSistema().isClicTableroCorrecto()) {
+//                System.out.println("No hizo click en casilla indicada. Intente nuevamente!");
+//            }
         }
     }
 
@@ -185,8 +186,33 @@ public class Modelo implements Runnable, Escenario {
 
     private void seleccionarBarco(ArrayList<TipoBarco> tipoBarcoList) {
 
+//        TipoBarco tipoBarco;
+//        for (int i = 1; i < 5; i++) {
+//
+//            if (i == 1) {
+//
+//                for (int j = 0; j < i; j++) {
+//                    tipoBarco = TipoBarco.BIGGEST;
+//                    tipoBarcoList.add(tipoBarco);
+//                    tipoBarco = TipoBarco.BIGGEST_2;
+//                    tipoBarcoList.add(tipoBarco);
+//                    tipoBarco = TipoBarco.BIGGEST_3;
+//                    tipoBarcoList.add(tipoBarco);
+//                    tipoBarco = TipoBarco.BIGGEST_4;
+//                    tipoBarcoList.add(tipoBarco);
+//                }
+//
+//            } else if (i == 2) {
+//                for (int j = 1; j < 5; j++) {
+//
+//                }
+//            }
+//            {
+//            }
+//        }
         int rand = (int) (Math.random() * (4) + 1);
         TipoBarco tipoBarco;
+
         if (rand == 1) {
             tipoBarco = TipoBarco.SMALL;
             tipoBarcoList.add(tipoBarco);

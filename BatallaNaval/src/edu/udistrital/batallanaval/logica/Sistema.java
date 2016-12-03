@@ -28,6 +28,7 @@ public class Sistema {
     private Cliente cliente;
     private Servidor servidor;
     private ServidorCliente servidorCliente;
+    private int[][] posUltimaCasillaEnemImpact;
 
     private String nombreCliente;
 
@@ -40,16 +41,18 @@ public class Sistema {
         barcosAmigosCargados = false;
         impactoCasillaAmigo = false;
         impactoCasillaEnemigo = false;
+
+        posUltimaCasillaEnemImpact = new int[1][2];
     }
 
     public void initWorld() {
         int x;
         int y = 10;
 //        casillas = new ArrayList();
-        for (int j = 0; j < 10; j++) {
+        for (int j = 1; j < 11; j++) {
             x = 10;
             y += 32;
-            for (int i = 0; i < 10; i++) {
+            for (int i = 1; i < 11; i++) {
                 x += 32;
                 Casilla m = new Casilla(/*this*/);
                 m.setX(x);
@@ -66,10 +69,10 @@ public class Sistema {
         }
 
         y = 10;
-        for (int j = 0; j < 10; j++) {
+        for (int j = 1; j < 11; j++) {
             x = 400;
             y += 32;
-            for (int i = 0; i < 10; i++) {
+            for (int i = 1; i < 11; i++) {
                 x += 32;
                 Casilla m = new Casilla(/*this*/);
                 m.setX(x);
@@ -157,7 +160,7 @@ public class Sistema {
 
     }
 
-    public void validarImpactoCasillaEnemigo(int x, int y/*, ArrayList casillas*/) {
+    public void impactarCasillaEnemigo(int x, int y/*, ArrayList casillas*/) {
         impactoCasillaEnemigo = false;
         for (int i = 100; i < 200; i++) {
 //             jsaenzar: SE COMENTA DEL CODIGO ORIGINAL
@@ -178,10 +181,11 @@ public class Sistema {
 //                        m.setSpriteName("ship-blue.png");
 //                    }
 //                }
-                int coordX = m.getUbicacion()[0][0] + 1;
-                int coordY = m.getUbicacion()[0][1] + 1;
+                int coordX = m.getUbicacion()[0][0];
+                int coordY = m.getUbicacion()[0][1];
                 System.out.println(coordX);
                 System.out.println(coordY);
+                setPosUltimaCasillaEnemImpact(m.getUbicacion());
                 getCliente().escribirMensaje("BNAVAL:ATK," + coordX + "," + coordY);
                 break;
 
@@ -318,5 +322,32 @@ public class Sistema {
 
     public ServidorCliente getServidorCliente() {
         return servidorCliente;
+    }
+
+    public void setPosUltimaCasillaEnemImpact(int[][] posUltimaCasillaEnemImpact) {
+        this.posUltimaCasillaEnemImpact = posUltimaCasillaEnemImpact;
+    }
+
+    public void dibujarImpactoCasillaEnemigo(String strImpacto) {
+
+        for (int i = 100; i < 200; i++) {
+
+            Casilla m = (Casilla) casillas.get(i);
+            if (posUltimaCasillaEnemImpact[0][0] == m.getUbicacion()[0][0]
+                    && posUltimaCasillaEnemImpact[0][1] == m.getUbicacion()[0][1]) {
+                if (strImpacto.equals("1")) {
+                    impactoCasillaEnemigo = true;
+//                    m.setSpriteName("ship-red.png");
+                    m.setSpriteName("ship-red.png");
+                    System.out.println("Dibujando impacto Casilla Enemigo Exitoso");
+                    break;
+                } else {
+                    m.setSpriteName("ship-blue.png");
+                    System.out.println("Dibujando impacto Casilla Enemigo Fallido");
+                    break;
+                }
+            }
+        }
+
     }
 }

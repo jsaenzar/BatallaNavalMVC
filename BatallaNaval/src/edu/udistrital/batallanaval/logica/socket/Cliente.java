@@ -50,8 +50,22 @@ public class Cliente implements Runnable {
                 if (m.getStrComando().equals("BNAVAL:ATK")) {
                     sistema.validarImpactoCasillaAmigo(Integer.parseInt(m.getStrParam1()),
                             Integer.parseInt(m.getStrParam2()));
-                    sistema.isImpactoCasillaAmigo();
+                    if (sistema.isImpactoCasillaAmigo()) {
+                        dataOutputStream.writeUTF("OK,1");
+                        dataOutputStream.flush();
+                    } else {
+                        dataOutputStream.writeUTF("OK,0");
+                        dataOutputStream.flush();
+                    }
+
+//                    sistema.getServidor().validarAtacante(null, hostName);//etservidor().validarAtacante(this, m.getStrComando() + "," + m.getStrParam1() + "," + m.getStrParam2());
                     System.out.println("sistema.isImpactoCasillaAmigo(): " + sistema.isImpactoCasillaAmigo());
+                }
+                if (m.getStrComando().equals("OK")) {
+                    
+                        sistema.dibujarImpactoCasillaEnemigo(m.getStrParam1());
+                    
+                    
                 }
             }
 //            dataOutputStream.close();

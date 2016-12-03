@@ -70,7 +70,8 @@ public class ServidorCliente implements Runnable {
 //                        dataOutputStream.flush();//                      
                         break;
                     default:
-                        System.out.println("ERROR AL PROCESAR COMANDO");
+                        servidor.validarAtacante(this, mensaje.getStrComando() + "," + mensaje.getStrParam1() + "," + mensaje.getStrParam2());
+//                        System.out.println("ERROR AL PROCESAR COMANDO");
                         break;
                 }
             }
